@@ -1,0 +1,240 @@
+<?php
+/**
+ * Plugin Name: MW Form Field Captcha
+ * Plugin URI: http://plugins.2inc.org/mw-wp-form/
+ * Description: Adding captcha field on MW WP Form.
+ * Version: 1.0.0
+ * Author: Takashi Kitajima
+ * Author URI: http://2inc.org
+ * Created : July 14, 2014
+ * Modified:
+ * Text Domain: mw-wp-form-captcha
+ * Domain Path: /languages/
+ * License: GPLv2
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ */
+class mw_form_field_captcha extends mw_form_field {
+	private $captcha_string = null;
+
+	/**
+	 * set_names
+	 * shortcode_name、display_nameを定義。各子クラスで上書きする。
+	 * @return array shortcode_name, display_name
+	 */
+	protected function set_names() {
+		return array(
+			'shortcode_name' => 'mwform_captcha',
+			'display_name' => __( 'captcha', MWF_Config::DOMAIN ),
+		);
+	}
+
+	/**
+	 * setDefaults
+	 * $this->defaultsを設定し返す
+	 * @return array
+	 */
+	protected function setDefaults() {
+		return array(
+			'show_error' => 'true',
+			'conv_half_alphanumeric' => 'true',
+		);
+	}
+
+	/**
+	 * inputPage
+	 * 入力ページでのフォーム項目を返す
+	 * @return string html
+	 */
+	protected function inputPage() {
+		$conv_half_alphanumeric = true;
+		if ( $this->atts['conv_half_alphanumeric'] === 'false' ) {
+			$conv_half_alphanumeric = false;
+		}
+		$_ret = $this->captcha_field( MW_WP_Form_Captcha::DOMAIN, array(
+			'conv-half-alphanumeric' => $conv_half_alphanumeric,
+		) );
+		if ( $this->atts['show_error'] !== 'false' )
+			$_ret .= $this->getError( MW_WP_Form_Captcha::DOMAIN );
+		return $_ret;
+	}
+
+	/**
+	 * confirmPage
+	 * 確認ページでのフォーム項目を返す
+	 * @return	String	HTML
+	 */
+	protected function confirmPage() {
+		$value = $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN );
+		$_ret  = $this->Form->hidden( MW_WP_Form_Captcha::DOMAIN, $value );
+		return $_ret;
+	}
+
+	/**
+	 * add_mwform_tag_generator
+	 * フォームタグジェネレーター
+	 */
+	public function mwform_tag_generator_dialog() {
+		?>
+		<p>
+			<strong><?php esc_html_e( 'Dsiplay error', MWF_Config::DOMAIN ); ?></strong>
+			<input type="checkbox" name="show_error" value="false" /> <?php esc_html_e( 'Don\'t display error.', MWF_Config::DOMAIN ); ?>
+		</p>
+		<p>
+			<strong><?php esc_html_e( 'Convert half alphanumeric', MWF_Config::DOMAIN ); ?></strong>
+			<input type="checkbox" name="conv_half_alphanumeric" value="false" /> <?php esc_html_e( 'Don\'t Convert.', MWF_Config::DOMAIN ); ?>
+		</p>
+		<?php
+	}
+
+	/**
+	 * captcha_field
+	 * captcha フィールド生成
+	 * @param string $name name属性
+	 * @param array
+	 * @return string html
+	 */
+	public function captcha_field( $name, $options = array() ) {
+		$defaults = array(
+			'conv-half-alphanumeric' => true,
+		);
+		$options = array_merge( $defaults, $options );
+		$dataConvHalfAlphanumeric = null;
+		if ( $options['conv-half-alphanumeric'] === true ) {
+			$dataConvHalfAlphanumeric = 'data-conv-half-alphanumeric="true"';
+		}
+
+		$temp_dir = MW_WP_Form_Captcha::getTempDir();
+		$temp_dir = $temp_dir['dir'];
+		$filename = sha1( wp_create_nonce( MW_WP_Form_Captcha::DOMAIN ) );
+
+		// ディレクトリを作成
+		MW_WP_Form_Captcha::createTempDir();
+		MW_WP_Form_Captcha::cleanTempDir();
+
+		// ランダムな文字列を生成
+		$string = $this->makeString();
+
+		// 答えを保存
+		$answer_filepath = $temp_dir . '/' . $filename . '.php';
+		$php_string = sprintf(
+			'<?php define( "MWFORM_CAPTCHA_STRING", "%s" ) ?>',
+			$string
+		);
+		file_put_contents( $answer_filepath, $php_string );
+		@chmod( $answer_filepath, 0600 );
+
+		// 画像を保存
+		$image_filepath = $temp_dir . '/' . $filename . '.jpg';
+		$image = $this->createImage( $image_filepath, $string );
+		return sprintf(
+			'<img src="%s" alt="" /><br />
+			<input type="text" name="%s" size="7" maxlength="5" %s />',
+			$image,
+			esc_attr( $name ),
+			$dataConvHalfAlphanumeric
+		);
+	}
+
+	/**
+	 * makeString
+	 * ランダム文字列を生成
+	 * @return string
+	 */
+	protected function makeString() {
+		$string = '';
+		$s = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$num = 5;
+		for ( $i = 0; $i < $num; $i++ ) {
+			$string .= substr( $s , rand( 0, strlen( $s ) - 1 ), 1 );
+		}
+		return $string;
+	}
+
+	/**
+	 * createImage
+	 * 画像を生成
+	 * @param string $filepath 画像ファイルのパス
+	 * @param string $string 書き込む文字列
+	 * @return string 画像URL
+	 */
+	public function createImage( $filepath, $string ) {
+		$fonts = array();
+		foreach ( glob( plugin_dir_path( __FILE__ ) . '../fonts/*' ) as $font ) {
+			$fonts[] = $font;
+		}
+
+		$im = @imagecreate( 200, 50 ) or die( 'Cannot Initialize new GD image stream.' );
+		$background_color = imagecolorallocate( $im, rand( 80, 100 ), rand( 80, 100 ), rand( 80, 100 ) );
+
+		$count = strlen( $string );
+		for ( $i = 0; $i < $count; $i ++ ) {
+			$font_key = array_rand( $fonts );
+			$font = $fonts[$font_key];
+			$text_color = imagecolorallocate( $im, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+			$font_size = rand( 20, 24 );
+			$angle = rand( -25, 25 );
+			$x = ( $i + 1 ) * 25;
+			$y = rand( 20, 40 );
+			$value = substr( $string, $i, 1 );
+			imagettftext( $im, $font_size, $angle, $x, $y, $text_color, $font, $value );
+		}
+		for ( $i = 0; $i < 5; $i ++ ) {
+			$this->imageline( $im, rand( 1, 3 ) );
+		}
+		for ( $i = 0; $i < 50; $i ++ ) {
+			$this->scratch( $im );
+		}
+		imagejpeg( $im, $filepath );
+		imagedestroy( $im );
+
+		$temp_dir = MW_WP_Form_Captcha::getTempDir();
+		$image_url = str_replace( $temp_dir['dir'], $temp_dir['url'], $filepath );
+		return $image_url;
+	}
+
+	/**
+	 * scratch
+	 * スクラッチを画像に書き込む
+	 * @param image $image イメージリソース
+	 */
+	protected function scratch( $image ) {
+		$color = imagecolorallocate( $image, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+		$x1 = rand( 0, 200 );
+		$y1 = rand( 0, 50 );
+		$x2 = $x1 + rand( -10, 10 );
+		$y2 = $y1 + rand( -10, 10 );
+		imageline( $image, $x1, $y1, $x2, $y2, $color );
+	}
+
+	/**
+	 * imageline
+	 * ラインを画像に書き込む
+	 * @param image $image イメージリソース
+	 * @param int $thickness ラインの
+	 */
+	protected function imageline( $image, $thickness = 1 ) {
+		$color = imagecolorallocate( $image, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+		$x1 = rand( 0, 200 );
+		$y1 = 0;
+		if ( $x1 === 0 ) {
+			$y1 = rand( 0, 50 );
+		}
+		$x2 = 200;
+		if ( $x1 !== 0 ) {
+			$x2 = rand( 0, 200 );
+		}
+		$y2 = 50;
+		if ( $y1 !== 0 ) {
+			$y2 = rand( 0, 50 );
+		}
+		for ( $i = 0; $i < $thickness; $i ++ ) {
+			if ( $x1 === 0 ) {
+				// 下にずらす
+				imageline( $image, $x1, $y1 + $i, $x2, $y2 + $i, $color );
+			} else {
+				// 右にずらす
+				imageline( $image, $x1 + $i, $y1, $x2 + $i, $y2, $color );
+			}
+		}
+	}
+}
