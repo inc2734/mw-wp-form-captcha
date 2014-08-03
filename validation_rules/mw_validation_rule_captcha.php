@@ -33,9 +33,11 @@ class MW_Validation_Rule_Captcha extends MW_Validation_Rule {
 
 		$temp_dir = MW_WP_Form_Captcha::getTempDir();
 		$temp_dir = $temp_dir['dir'];
-		$filename = sha1( wp_create_nonce( MW_WP_Form_Captcha::DOMAIN ) );
-		$answer_filepath = $temp_dir . '/' . $filename . '.php';
-		include_once( $answer_filepath );
+		$uniqid = $this->Data->get( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
+		$filename = MW_WP_Form_Captcha::getFileName( $uniqid );
+		$answer_filepath = trailingslashit( $temp_dir ) . $filename . '.php';
+		if ( is_readable( $answer_filepath ) )
+			include_once( $answer_filepath );
 		$answer = '';
 		if ( defined( 'MWFORM_CAPTCHA_STRING' ) )
 			$answer = MWFORM_CAPTCHA_STRING;

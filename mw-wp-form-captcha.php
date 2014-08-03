@@ -40,10 +40,12 @@ class MW_WP_Form_Captcha {
 	 * plugins_loaded
 	 */
 	public function plugins_loaded() {
-		load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-		include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
-		include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
-		new mw_form_field_captcha();
+		if ( class_exists( 'MW_WP_Form' ) ) {
+			load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
+			include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
+			new mw_form_field_captcha();
+		}
 	}
 
 	/**
@@ -133,12 +135,21 @@ class MW_WP_Form_Captcha {
 			if ( $filename !== '.' && $filename !== '..' ) {
 				if ( !is_dir( trailingslashit( $temp_dir ) . $filename ) ) {
 					$stat = stat( trailingslashit( $temp_dir ) . $filename );
-					if ( $stat['mtime'] + 3600 < time() )
+					if ( $stat['mtime'] + 60 * 5 < time() )
 						unlink( trailingslashit( $temp_dir ) . $filename );
 				}
 			}
 		}
 		closedir( $handle );
+	}
+
+	/**
+	 * getFileName
+	 * @param string $uniqid salt として利用する文字列
+	 * @return string 画像・回答のファイル名のベースとなる文字列
+	 */
+	public static function getFileName( $uniqid ) {
+		return sha1( wp_create_nonce( MW_WP_Form_Captcha::DOMAIN . $uniqid ) );
 	}
 }
 $MW_WP_Form_Captcha = new MW_WP_Form_Captcha();

@@ -13,7 +13,7 @@
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-class mw_form_field_captcha extends mw_form_field {
+class MW_Form_Field_Captcha extends MW_Form_Field {
 	private $captcha_string = null;
 
 	/**
@@ -50,11 +50,16 @@ class mw_form_field_captcha extends mw_form_field {
 		if ( $this->atts['conv_half_alphanumeric'] === 'false' ) {
 			$conv_half_alphanumeric = false;
 		}
+		$uniqid = uniqid();
+
 		$_ret = $this->captcha_field( MW_WP_Form_Captcha::DOMAIN, array(
 			'conv-half-alphanumeric' => $conv_half_alphanumeric,
+			'uniqid' => $uniqid,
 		) );
 		if ( $this->atts['show_error'] !== 'false' )
 			$_ret .= $this->getError( MW_WP_Form_Captcha::DOMAIN );
+
+		$_ret .= $this->uniqid_field( $uniqid );
 		return $_ret;
 	}
 
@@ -66,6 +71,7 @@ class mw_form_field_captcha extends mw_form_field {
 	protected function confirmPage() {
 		$value = $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN );
 		$_ret  = $this->Form->hidden( MW_WP_Form_Captcha::DOMAIN, $value );
+		$_ret .= $this->uniqid_field( $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN . '-uniqid' ) );
 		return $_ret;
 	}
 
@@ -96,16 +102,13 @@ class mw_form_field_captcha extends mw_form_field {
 	public function captcha_field( $name, $options = array() ) {
 		$defaults = array(
 			'conv-half-alphanumeric' => true,
+			'uniqid' => '',
 		);
 		$options = array_merge( $defaults, $options );
-		$dataConvHalfAlphanumeric = null;
-		if ( $options['conv-half-alphanumeric'] === true ) {
-			$dataConvHalfAlphanumeric = 'data-conv-half-alphanumeric="true"';
-		}
 
 		$temp_dir = MW_WP_Form_Captcha::getTempDir();
 		$temp_dir = $temp_dir['dir'];
-		$filename = sha1( wp_create_nonce( MW_WP_Form_Captcha::DOMAIN ) );
+		$filename = MW_WP_Form_Captcha::getFileName( $options['uniqid'] );
 
 		// ディレクトリを作成
 		MW_WP_Form_Captcha::createTempDir();
@@ -115,7 +118,7 @@ class mw_form_field_captcha extends mw_form_field {
 		$string = $this->makeString();
 
 		// 答えを保存
-		$answer_filepath = $temp_dir . '/' . $filename . '.php';
+		$answer_filepath = trailingslashit( $temp_dir ) . $filename . '.php';
 		$php_string = sprintf(
 			'<?php define( "MWFORM_CAPTCHA_STRING", "%s" ) ?>',
 			$string
@@ -124,15 +127,27 @@ class mw_form_field_captcha extends mw_form_field {
 		@chmod( $answer_filepath, 0600 );
 
 		// 画像を保存
-		$image_filepath = $temp_dir . '/' . $filename . '.jpg';
-		$image = $this->createImage( $image_filepath, $string );
-		return sprintf(
-			'<img src="%s" alt="" /><br />
-			<input type="text" name="%s" size="7" maxlength="5" %s />',
-			$image,
-			esc_attr( $name ),
-			$dataConvHalfAlphanumeric
-		);
+		$image_filepath = trailingslashit( $temp_dir ) . $filename . '.jpg';
+		$image_url = $this->createImage( $image_filepath, $string );
+
+		$_ret  = sprintf( '<img src="%s" alt="" /><br />', $image_url );
+		$_ret .= esc_html__( 'Please input the alphanumeric characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
+		$_ret .= '<br />';
+		$_ret .= $this->Form->text( $name, array(
+			'value' => null,
+			'size' => 10,
+			'conv-half-alphanumeric' => $options['conv-half-alphanumeric'],
+		) );
+		return $_ret;
+	}
+
+	/**
+	 * uniqid_field
+	 * @param string $uniqid salt として利用する文字列
+	 * @return string hidden フィールド
+	 */
+	protected function uniqid_field( $uniqid ) {
+		return $this->Form->hidden( MW_WP_Form_Captcha::DOMAIN . '-uniqid', $uniqid );
 	}
 
 	/**
