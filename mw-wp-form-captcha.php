@@ -6,7 +6,7 @@
  * Version: 1.0.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
- * Created : July 14, 2014
+ * Created : August 4, 2014
  * Modified:
  * Text Domain: mw-wp-form-captcha
  * Domain Path: /languages/
@@ -42,9 +42,13 @@ class MW_WP_Form_Captcha {
 	public function plugins_loaded() {
 		if ( class_exists( 'MW_WP_Form' ) ) {
 			load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
+
 			include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
 			include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
+
 			new mw_form_field_captcha();
+			new ATPU_Plugin( 'http://plugins.2inc.org/mw-wp-form/api/', 'mw-wp-form-captcha' );
 		}
 	}
 
