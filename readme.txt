@@ -14,6 +14,24 @@ Adding captcha field on MW WP Form.
 
 Adding captcha field on MW WP Form.
 
+== The following third-party resources ==
+
+Open Baskerville
+License: SIL Open Font License (OFL)
+Source : https://github.com/klepas/open-baskerville
+
+OSP-DIN
+License: SIL Open Font License (OFL)
+Source : http://ospublish.constantvzw.org/foundry/osp-din/
+
+Sans Guilt Wafer Wafer
+License: SIL Open Font License (OFL)
+Source : http://ospublish.constantvzw.org/foundry/sans-guilt-wafer/
+
+Avería
+License: SIL Open Font License (OFL)
+Source : http://iotic.com/averia/
+
 = Official =
 
 http://plugins.2inc.org/mw-wp-form/
