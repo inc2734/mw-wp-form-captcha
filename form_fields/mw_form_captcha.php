@@ -24,7 +24,7 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	protected function set_names() {
 		return array(
 			'shortcode_name' => 'mwform_captcha',
-			'display_name' => __( 'captcha', MWF_Config::DOMAIN ),
+			'display_name' => __( 'CAPTCHA', MW_WP_Form_Captcha::DOMAIN ),
 		);
 	}
 

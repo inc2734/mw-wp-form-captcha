@@ -58,7 +58,7 @@ class MW_Validation_Rule_Captcha extends MW_Validation_Rule {
 	 */
 	public static function admin( $key, $value ) {
 		?>
-		<label><input type="checkbox" <?php checked( $value[self::getName()], 1 ); ?> name="<?php echo MWF_Config::NAME; ?>[validation][<?php echo $key; ?>][<?php echo esc_attr( self::getName() ); ?>]" value="1" /><?php esc_html_e( 'Captcha', MW_WP_Form_Captcha::DOMAIN ); ?></label>
+		<label><input type="checkbox" <?php checked( $value[self::getName()], 1 ); ?> name="<?php echo MWF_Config::NAME; ?>[validation][<?php echo $key; ?>][<?php echo esc_attr( self::getName() ); ?>]" value="1" /><?php esc_html_e( 'CAPTCHA', MW_WP_Form_Captcha::DOMAIN ); ?></label>
 		<?php
 	}
 }

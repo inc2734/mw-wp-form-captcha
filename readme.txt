@@ -1,4 +1,4 @@
-=== MW WP Form Captcha ===
+=== MW WP Form CAPTCHA ===
 Contributors: inc2734
 Donate link: http://www.amazon.co.jp/registry/wishlist/39ANKRNSTNW40
 Tags: plugin, form, mail, captcha
@@ -8,11 +8,11 @@ Stable tag: 1.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adding captcha field on MW WP Form.
+Adding CAPTCHA field on MW WP Form.
 
 == Description ==
 
-Adding captcha field on MW WP Form.
+Adding CAPTCHA field on MW WP Form.
 
 == The following third-party resources ==
 
@@ -38,13 +38,13 @@ http://plugins.2inc.org/mw-wp-form/
 
 == Installation ==
 
-1. Upload `MW WP Form Captcha` to the `/wp-content/plugins/` directory
+1. Upload `MW WP Form CAPTCHA` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Add captcha to content and add captcha validation to `mw-wp-form-captcha` field in form create page.
+1. Add CAPTCHA to content and add CAPTCHA validation to `mw-wp-form-captcha` field in form create page.
 
 == Frequently Asked Questions ==
 
-Do you have questions or issues with MW WP Form Captcha? Use these support channels appropriately.
+Do you have questions or issues with MW WP Form CAPTCHA? Use these support channels appropriately.
 
 1. [Official](http://plugins.2inc.org/mw-wp-form/)
 

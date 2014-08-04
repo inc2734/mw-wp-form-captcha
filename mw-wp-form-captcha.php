@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: MW WP Form Captcha
+ * Plugin Name: MW WP Form CAPTCHA
  * Plugin URI: http://plugins.2inc.org/mw-wp-form/
- * Description: Adding captcha field on MW WP Form.
+ * Description: Adding CAPTCHA field on MW WP Form.
  * Version: 1.0.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
@@ -32,7 +32,7 @@ class MW_WP_Form_Captcha {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		add_filter( 'mwform_validation_rules', array( $this, 'validation_captcha') );
+		add_filter( 'mwform_validation_rules', array( $this, 'validation_captcha'), 10, 2 );
 		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
 	}
 
@@ -40,9 +40,8 @@ class MW_WP_Form_Captcha {
 	 * plugins_loaded
 	 */
 	public function plugins_loaded() {
+		load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
 		if ( class_exists( 'MW_WP_Form' ) ) {
-			load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-
 			include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
 			include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
 			include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
