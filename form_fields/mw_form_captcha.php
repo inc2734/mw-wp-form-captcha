@@ -35,6 +35,7 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 */
 	protected function setDefaults() {
 		return array(
+			'name' => MW_WP_Form_Captcha::DOMAIN,
 			'show_error' => 'true',
 			'conv_half_alphanumeric' => 'true',
 		);
@@ -52,12 +53,12 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 		}
 		$uniqid = uniqid();
 
-		$_ret = $this->captcha_field( MW_WP_Form_Captcha::DOMAIN, array(
+		$_ret = $this->captcha_field( $this->atts['name'], array(
 			'conv-half-alphanumeric' => $conv_half_alphanumeric,
 			'uniqid' => $uniqid,
 		) );
 		if ( $this->atts['show_error'] !== 'false' )
-			$_ret .= $this->getError( MW_WP_Form_Captcha::DOMAIN );
+			$_ret .= $this->getError( $this->atts['name'] );
 
 		$_ret .= $this->uniqid_field( $uniqid );
 		return $_ret;
@@ -69,9 +70,10 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 * @return	String	HTML
 	 */
 	protected function confirmPage() {
-		$value = $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN );
-		$_ret  = $this->Form->hidden( MW_WP_Form_Captcha::DOMAIN, $value );
-		$_ret .= $this->uniqid_field( $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN . '-uniqid' ) );
+		$value = $this->Form->getValue( $this->atts['name'] );
+		$uniqid = $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
+		$_ret  = $this->Form->hidden( $this->atts['name'], $value );
+		$_ret .= $this->uniqid_field( $uniqid );
 		return $_ret;
 	}
 
@@ -81,6 +83,10 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 */
 	public function mwform_tag_generator_dialog() {
 		?>
+		<p>
+			<strong>name</strong>
+			<input type="text" name="name" value="<?php echo esc_attr( $this->defaults['name'] ); ?>" />
+		</p>
 		<p>
 			<strong><?php esc_html_e( 'Dsiplay error', MWF_Config::DOMAIN ); ?></strong>
 			<input type="checkbox" name="show_error" value="false" /> <?php esc_html_e( 'Don\'t display error.', MWF_Config::DOMAIN ); ?>
