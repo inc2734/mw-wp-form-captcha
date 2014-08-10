@@ -57,10 +57,11 @@ class MW_WP_Form_Captcha {
 	 * validation_captcha
 	 * captcha バリデーションを追加
 	 * @param array $validation_rules
+	 * @param string $key フォーム識別子
 	 * @return array $validation_rules
 	 */
-	public function validation_captcha( $validation_rules ) {
-		$validation_rules['captcha'] = 'mw_validation_rule_captcha';
+	public function validation_captcha( $validation_rules, $key ) {
+		$validation_rules['captcha'] = new MW_Validation_Rule_Captcha( $key );
 		return $validation_rules;
 	}
 
