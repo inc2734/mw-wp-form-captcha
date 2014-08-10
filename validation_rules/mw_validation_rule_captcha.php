@@ -1,7 +1,7 @@
 <?php
 /**
  * Name: MW Validation Rule Captcha
- * Description: 値がアルファベット
+ * Description: CAPTCHA
  * Version: 1.0.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org

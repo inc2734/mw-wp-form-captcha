@@ -6,11 +6,12 @@
  * Version: 1.0.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
- * Created : August 4, 2014
+ * Created : August 10, 2014
  * Modified:
  * Text Domain: mw-wp-form-captcha
  * Domain Path: /languages/
  * License: GPLv2
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 class MW_WP_Form_Captcha {
 

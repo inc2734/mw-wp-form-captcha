@@ -6,8 +6,6 @@
  * Author URI: http://2inc.org
  * Created : July 14, 2014
  * Modified:
- * Text Domain: mw-wp-form-captcha
- * Domain Path: /languages/
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */

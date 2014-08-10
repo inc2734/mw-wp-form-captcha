@@ -13,6 +13,8 @@ Adding CAPTCHA field on MW WP Form.
 == Description ==
 
 Adding CAPTCHA field on MW WP Form.
+This plugin need PHP GD or FreeType libraries.
+And write permission to the upload directory is needed.
 
 == The following third-party resources ==
 
