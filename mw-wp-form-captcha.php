@@ -32,9 +32,12 @@ class MW_WP_Form_Captcha {
 	 * __construct
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		add_filter( 'mwform_validation_rules', array( $this, 'validation_captcha'), 10, 2 );
-		register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		if ( is_plugin_active( 'mw-wp-form/mw-wp-form.php' ) ) {
+			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+			add_filter( 'mwform_validation_rules', array( $this, 'validation_captcha'), 10, 2 );
+			register_uninstall_hook( __FILE__, array( __CLASS__, 'uninstall' ) );
+		}
 	}
 
 	/**
@@ -42,14 +45,12 @@ class MW_WP_Form_Captcha {
 	 */
 	public function plugins_loaded() {
 		load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-		if ( class_exists( 'MW_WP_Form' ) ) {
-			include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
-			include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
-			include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
+		include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
+		include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
+		include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
 
-			new mw_form_field_captcha();
-			new ATPU_Plugin( 'http://plugins.2inc.org/mw-wp-form/api/', 'mw-wp-form-captcha' );
-		}
+		new mw_form_field_captcha();
+		new ATPU_Plugin( 'http://plugins.2inc.org/mw-wp-form/api/', 'mw-wp-form-captcha' );
 	}
 
 	/**
