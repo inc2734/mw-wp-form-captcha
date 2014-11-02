@@ -3,11 +3,11 @@
  * Plugin Name: MW WP Form CAPTCHA
  * Plugin URI: http://plugins.2inc.org/mw-wp-form/
  * Description: Adding CAPTCHA field on MW WP Form.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : August 10, 2014
- * Modified: September 16, 2014
+ * Modified: November 2, 2014
  * Text Domain: mw-wp-form-captcha
  * Domain Path: /languages/
  * License: GPLv2
@@ -52,9 +52,11 @@ class MW_WP_Form_Captcha {
 		load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
 		include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
 		include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
-		include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
-
 		new mw_form_field_captcha();
+
+		if ( !class_exists( 'ATPU_Plugin' ) ) {
+			include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
+		}
 		new ATPU_Plugin( 'http://plugins.2inc.org/mw-wp-form/api/', 'mw-wp-form-captcha' );
 	}
 
