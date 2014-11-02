@@ -1,11 +1,11 @@
 <?php
 /**
  * Name: MW Form Field Captcha
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 14, 2014
- * Modified:
+ * Modified: November 2, 2014
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -77,19 +77,29 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 * add_mwform_tag_generator
 	 * フォームタグジェネレーター
 	 */
-	public function mwform_tag_generator_dialog() {
+	public function mwform_tag_generator_dialog( array $options = array() ) {
 		?>
 		<p>
 			<strong>name</strong>
-			<input type="text" name="name" value="<?php echo esc_attr( $this->defaults['name'] ); ?>" />
+			<?php
+			global $pagenow;
+			if ( $pagenow === 'post.php' ) {
+				$name = $this->defaults['name'];
+			} else {
+				$name = $this->get_value_for_generator( 'name', $options );
+			}
+			?>
+			<input type="text" name="name" value="<?php echo esc_attr( $name ); ?>" />
 		</p>
 		<p>
 			<strong><?php esc_html_e( 'Dsiplay error', MWF_Config::DOMAIN ); ?></strong>
-			<input type="checkbox" name="show_error" value="false" /> <?php esc_html_e( 'Don\'t display error.', MWF_Config::DOMAIN ); ?>
+			<?php $show_error = $this->get_value_for_generator( 'show_error', $options ); ?>
+			<input type="checkbox" name="show_error" value="false" <?php checked( 'false', $show_error ); ?> /> <?php esc_html_e( 'Don\'t display error.', MWF_Config::DOMAIN ); ?>
 		</p>
 		<p>
 			<strong><?php esc_html_e( 'Convert half alphanumeric', MWF_Config::DOMAIN ); ?></strong>
-			<input type="checkbox" name="conv_half_alphanumeric" value="false" /> <?php esc_html_e( 'Don\'t Convert.', MWF_Config::DOMAIN ); ?>
+			<?php $conv_half_alphanumeric = $this->get_value_for_generator( 'conv_half_alphanumeric', $options ); ?>
+			<input type="checkbox" name="conv_half_alphanumeric" value="false" <?php checked( 'false', $conv_half_alphanumeric ); ?> /> <?php esc_html_e( 'Don\'t Convert.', MWF_Config::DOMAIN ); ?>
 		</p>
 		<?php
 	}
