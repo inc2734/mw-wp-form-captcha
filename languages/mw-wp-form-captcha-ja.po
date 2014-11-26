@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the MW WP Form CAPTCHA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: MW WP Form CAPTCHA 1.0.0\n"
+"Project-Id-Version: MW WP Form CAPTCHA 1.1.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/mw-wp-form-captcha\n"
-"POT-Creation-Date: 2014-08-04 22:10+0900\n"
-"PO-Revision-Date: 2014-08-04 22:12+0900\n"
+"POT-Creation-Date: 2014-11-26 13:50:34+00:00\n"
+"PO-Revision-Date: 2014-11-26 22:53+0900\n"
 "Last-Translator: Takashi Kitajima <inc@2inc.org>\n"
 "Language-Team: Takashi Kitajima <inc@2inc.org>\n"
 "Language: ja_JP\n"
@@ -15,50 +15,83 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Generator: Poedit 1.6.10\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../form_fields/mw_form_captcha.php:27
-#: ../validation_rules/mw_validation_rule_captcha.php:61
+#: form_fields/mw_form_captcha.php:23
+#: validation_rules/mw_validation_rule_captcha.php:61
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: ../form_fields/mw_form_captcha.php:85
+#: form_fields/mw_form_captcha.php:99
+msgid "String to use"
+msgstr "使用する文字列"
+
+#: form_fields/mw_form_captcha.php:102
+msgid "Please input at least five characters."
+msgstr "最低でも5文字以上入力してください。"
+
+#: form_fields/mw_form_captcha.php:105
+msgid "Number of lines"
+msgstr "線の数"
+
+#: form_fields/mw_form_captcha.php:110
+msgid "Number of scratches"
+msgstr "スクラッチの数"
+
+#: form_fields/mw_form_captcha.php:115
 msgid "Dsiplay error"
-msgstr ""
+msgstr "エラー表示"
 
-#: ../form_fields/mw_form_captcha.php:86
+#: form_fields/mw_form_captcha.php:117
 msgid "Don't display error."
-msgstr ""
+msgstr "エラーを表示しない"
 
-#: ../form_fields/mw_form_captcha.php:89
+#: form_fields/mw_form_captcha.php:120
 msgid "Convert half alphanumeric"
-msgstr ""
+msgstr "半角英数字に変換"
 
-#: ../form_fields/mw_form_captcha.php:90
+#: form_fields/mw_form_captcha.php:122
 msgid "Don't Convert."
-msgstr ""
+msgstr "変換しない"
 
-#: ../form_fields/mw_form_captcha.php:134
+#: form_fields/mw_form_captcha.php:172
 msgid ""
 "Please input the alphanumeric characters of five characters that are "
 "displayed."
 msgstr "表示された5文字の英数字を入力してください。"
 
-#: ../modules/plugin-update.php:105
+#: modules/plugin-update.php:105
 msgid ""
 "An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
 "\" onclick=\"document.location.reload(); return false;\">Try again</a>"
 msgstr ""
 
-#: ../modules/plugin-update.php:110
+#: modules/plugin-update.php:110
 msgid "An unknown error occurred"
-msgstr ""
+msgstr "An unknown error occurred"
 
-#: ../validation_rules/mw_validation_rule_captcha.php:47
+#: validation_rules/mw_validation_rule_captcha.php:47
 msgid "Invalid"
 msgstr "不正です。"
 
-#~ msgid "Adding CAPTCHA field on MW WP Form."
-#~ msgstr "MW WP Form に CAPTCHA を追加します。"
+#. Plugin Name of the plugin/theme
+msgid "MW WP Form CAPTCHA"
+msgstr "MW WP Form CAPTCHA"
+
+#. Plugin URI of the plugin/theme
+msgid "http://plugins.2inc.org/mw-wp-form/"
+msgstr "http://plugins.2inc.org/mw-wp-form/"
+
+#. Description of the plugin/theme
+msgid "Adding CAPTCHA field on MW WP Form."
+msgstr "MW WP Form に CAPTCHA を追加します。"
+
+#. Author of the plugin/theme
+msgid "Takashi Kitajima"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://2inc.org"
+msgstr ""
