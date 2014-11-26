@@ -1,11 +1,11 @@
 <?php
 /**
  * Name: MW Form Field Captcha
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 14, 2014
- * Modified: November 2, 2014
+ * Modified: November 26, 2014
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -31,7 +31,10 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 */
 	protected function setDefaults() {
 		return array(
-			'name' => MW_WP_Form_Captcha::DOMAIN,
+			'name'       => MW_WP_Form_Captcha::DOMAIN,
+			'string'     => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'line'       => 5,
+			'scratch'    => 50,
 			'show_error' => 'true',
 			'conv_half_alphanumeric' => 'true',
 		);
@@ -51,7 +54,10 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 
 		$_ret = $this->captcha_field( $this->atts['name'], array(
 			'conv-half-alphanumeric' => $conv_half_alphanumeric,
-			'uniqid' => $uniqid,
+			'uniqid'  => $uniqid,
+			'string'  => $this->atts['string'],
+			'line'    => $this->atts['line'],
+			'scratch' => $this->atts['scratch'],
 		) );
 		if ( $this->atts['show_error'] !== 'false' )
 			$_ret .= $this->getError( $this->atts['name'] );
@@ -82,14 +88,28 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 		<p>
 			<strong>name</strong>
 			<?php
-			global $pagenow;
-			if ( $pagenow === 'post.php' ) {
+			$name = $this->get_value_for_generator( 'name', $options );
+			if ( !$name ) {
 				$name = $this->defaults['name'];
-			} else {
-				$name = $this->get_value_for_generator( 'name', $options );
 			}
 			?>
 			<input type="text" name="name" value="<?php echo esc_attr( $name ); ?>" />
+		</p>
+		<p>
+			<strong><?php esc_html_e( 'String to use', MWF_Config::DOMAIN ); ?></strong>
+			<?php $string = $this->get_value_for_generator( 'string', $options ); ?>
+			<input type="text" name="string" value="<?php echo esc_attr( $string ); ?>" placeholder="<?php echo esc_attr( $this->defaults['string'] ); ?>" /><br />
+			<span class="mwf_note"><?php esc_html_e( 'Please input at least five characters.', MWF_Config::DOMAIN ); ?></span>
+		</p>
+		<p>
+			<strong><?php esc_html_e( 'Number of lines', MWF_Config::DOMAIN ); ?></strong>
+			<?php $line = $this->get_value_for_generator( 'line', $options ); ?>
+			<input type="text" name="line" value="<?php echo esc_attr( $line ); ?>" size="3" maxlength="2" placeholder="<?php echo esc_attr( $this->defaults['line'] ); ?>" />
+		</p>
+		<p>
+			<strong><?php esc_html_e( 'Number of scratches', MWF_Config::DOMAIN ); ?></strong>
+			<?php $scratch = $this->get_value_for_generator( 'scratch', $options ); ?>
+			<input type="text" name="scratch" value="<?php echo esc_attr( $scratch ); ?>" size="3" maxlength="2" placeholder="<?php echo esc_attr( $this->defaults['scratch'] ); ?>" />
 		</p>
 		<p>
 			<strong><?php esc_html_e( 'Dsiplay error', MWF_Config::DOMAIN ); ?></strong>
@@ -108,15 +128,18 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 * captcha_field
 	 * captcha フィールド生成
 	 * @param string $name name属性
-	 * @param array
+	 * @param array $options
 	 * @return string html
 	 */
 	public function captcha_field( $name, $options = array() ) {
 		$defaults = array(
 			'conv-half-alphanumeric' => true,
-			'uniqid' => '',
+			'uniqid'  => '',
+			'string'  => $this->defaults['string'],
+			'line'    => $this->defaults['line'],
+			'scratch' => $this->defaults['scratch'],
 		);
-		$options = array_merge( $defaults, $options );
+		$options = shortcode_atts( $defaults, $options );
 
 		$temp_dir = MW_WP_Form_Captcha::getTempDir();
 		$temp_dir = $temp_dir['dir'];
@@ -127,7 +150,7 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 		MW_WP_Form_Captcha::cleanTempDir();
 
 		// ランダムな文字列を生成
-		$string = $this->makeString();
+		$string = $this->makeString( $options['string'] );
 
 		// 答えを保存
 		$answer_filepath = trailingslashit( $temp_dir ) . $filename . '.php';
@@ -140,14 +163,17 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 
 		// 画像を保存
 		$image_filepath = trailingslashit( $temp_dir ) . $filename . '.jpg';
-		$image_url = $this->createImage( $image_filepath, $string );
+		$image_url = $this->createImage( $image_filepath, $string, array(
+			'line'    => $options['line'],
+			'scratch' => $options['scratch'],
+		) );
 
 		$_ret  = sprintf( '<img src="%s" alt="" /><br />', $image_url );
 		$_ret .= esc_html__( 'Please input the alphanumeric characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
 		$_ret .= '<br />';
 		$_ret .= $this->Form->text( $name, array(
 			'value' => null,
-			'size' => 10,
+			'size'  => 10,
 			'conv-half-alphanumeric' => $options['conv-half-alphanumeric'],
 		) );
 		return $_ret;
@@ -165,16 +191,19 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	/**
 	 * makeString
 	 * ランダム文字列を生成
+	 * @param string $string
 	 * @return string
 	 */
-	protected function makeString() {
-		$string = '';
-		$s = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	protected function makeString( $string ) {
+		$return = '';
 		$num = 5;
-		for ( $i = 0; $i < $num; $i++ ) {
-			$string .= substr( $s , rand( 0, strlen( $s ) - 1 ), 1 );
+		if ( strlen( $string ) < $num ) {
+			$string = $this->defaults['string'];
 		}
-		return $string;
+		for ( $i = 0; $i < $num; $i++ ) {
+			$return .= substr( $string , rand( 0, strlen( $string ) - 1 ), 1 );
+		}
+		return $return;
 	}
 
 	/**
@@ -182,12 +211,21 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	 * 画像を生成
 	 * @param string $filepath 画像ファイルのパス
 	 * @param string $string 書き込む文字列
+	 * @param array $options
 	 * @return string 画像URL
 	 */
-	public function createImage( $filepath, $string ) {
+	public function createImage( $filepath, $string, array $options ) {
 		$fonts = array();
 		foreach ( glob( plugin_dir_path( __FILE__ ) . '../fonts/*' ) as $font ) {
 			$fonts[] = $font;
+		}
+
+		$options = shortcode_atts( $this->defaults, $options );
+		if ( !preg_match( '/^\d+$/', $options['line'] ) ) {
+			$options['line'] = $this->defaults['line'];
+		}
+		if ( !preg_match( '/^\d+$/', $options['scratch'] ) ) {
+			$options['scratch'] = $this->defaults['scratch'];
 		}
 
 		$im = @imagecreate( 200, 50 ) or die( 'Cannot Initialize new GD image stream.' );
@@ -205,10 +243,10 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 			$value = substr( $string, $i, 1 );
 			imagettftext( $im, $font_size, $angle, $x, $y, $text_color, $font, $value );
 		}
-		for ( $i = 0; $i < 5; $i ++ ) {
-			$this->imageline( $im, rand( 1, 3 ) );
+		for ( $i = 0; $i < $options['line']; $i ++ ) {
+			$this->line( $im, rand( 1, 3 ) );
 		}
-		for ( $i = 0; $i < 50; $i ++ ) {
+		for ( $i = 0; $i < $options['scratch']; $i ++ ) {
 			$this->scratch( $im );
 		}
 		imagejpeg( $im, $filepath );
@@ -234,12 +272,12 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	}
 
 	/**
-	 * imageline
+	 * line
 	 * ラインを画像に書き込む
 	 * @param image $image イメージリソース
 	 * @param int $thickness ラインの
 	 */
-	protected function imageline( $image, $thickness = 1 ) {
+	protected function line( $image, $thickness = 1 ) {
 		$color = imagecolorallocate( $image, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
 		$x1 = rand( 0, 200 );
 		$y1 = 0;
