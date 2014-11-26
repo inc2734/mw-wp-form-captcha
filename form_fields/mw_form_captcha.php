@@ -96,18 +96,18 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 			<input type="text" name="name" value="<?php echo esc_attr( $name ); ?>" />
 		</p>
 		<p>
-			<strong><?php esc_html_e( 'String to use', MWF_Config::DOMAIN ); ?></strong>
+			<strong><?php esc_html_e( 'String to use', 'mw-wp-form-captcha' ); ?></strong>
 			<?php $string = $this->get_value_for_generator( 'string', $options ); ?>
 			<input type="text" name="string" value="<?php echo esc_attr( $string ); ?>" placeholder="<?php echo esc_attr( $this->defaults['string'] ); ?>" /><br />
-			<span class="mwf_note"><?php esc_html_e( 'Please input at least five characters.', MWF_Config::DOMAIN ); ?></span>
+			<span class="mwf_note"><?php esc_html_e( 'Please input at least five characters.', 'mw-wp-form-captcha' ); ?></span>
 		</p>
 		<p>
-			<strong><?php esc_html_e( 'Number of lines', MWF_Config::DOMAIN ); ?></strong>
+			<strong><?php esc_html_e( 'Number of lines', 'mw-wp-form-captcha' ); ?></strong>
 			<?php $line = $this->get_value_for_generator( 'line', $options ); ?>
 			<input type="text" name="line" value="<?php echo esc_attr( $line ); ?>" size="3" maxlength="2" placeholder="<?php echo esc_attr( $this->defaults['line'] ); ?>" />
 		</p>
 		<p>
-			<strong><?php esc_html_e( 'Number of scratches', MWF_Config::DOMAIN ); ?></strong>
+			<strong><?php esc_html_e( 'Number of scratches', 'mw-wp-form-captcha' ); ?></strong>
 			<?php $scratch = $this->get_value_for_generator( 'scratch', $options ); ?>
 			<input type="text" name="scratch" value="<?php echo esc_attr( $scratch ); ?>" size="3" maxlength="2" placeholder="<?php echo esc_attr( $this->defaults['scratch'] ); ?>" />
 		</p>
