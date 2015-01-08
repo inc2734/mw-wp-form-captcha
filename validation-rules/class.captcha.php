@@ -1,16 +1,16 @@
 <?php
 /**
- * Name: MW Validation Rule Captcha
+ * Name: MW WP Form Validation Rule Captcha
  * Description: CAPTCHA
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 21, 2014
- * Modified:
+ * Modified: January 9, 2014
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-class MW_Validation_Rule_Captcha extends MW_Validation_Rule {
+class MW_WP_Form_Validation_Rule_Captcha extends MW_WP_Form_Abstract_Validation_Rule {
 
 	/**
 	 * バリデーションルール名を指定
@@ -27,7 +27,7 @@ class MW_Validation_Rule_Captcha extends MW_Validation_Rule {
 		$value = $this->Data->get( $key );
 
 		// 値が存在しないけど他のデータもない（=フォーム送信自体されていない）ときはエラーではない
-		if ( is_null( $value ) && !$this->Data->getValues() ) {
+		if ( is_null( $value ) && !$this->Data->gets() ) {
 			return;
 		}
 

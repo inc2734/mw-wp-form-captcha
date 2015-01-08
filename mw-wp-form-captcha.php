@@ -3,11 +3,11 @@
  * Plugin Name: MW WP Form CAPTCHA
  * Plugin URI: http://plugins.2inc.org/mw-wp-form/
  * Description: Adding CAPTCHA field on MW WP Form.
- * Version: 1.1.1
+ * Version: 1.2.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : August 10, 2014
- * Modified: November 26, 2014
+ * Modified: January 9, 2014
  * Text Domain: mw-wp-form-captcha
  * Domain Path: /languages/
  * License: GPLv2
@@ -50,9 +50,9 @@ class MW_WP_Form_Captcha {
 	 */
 	public function plugins_loaded() {
 		load_plugin_textdomain( self::DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-		include_once( plugin_dir_path( __FILE__ ) . 'form_fields/mw_form_captcha.php' );
-		include_once( plugin_dir_path( __FILE__ ) . 'validation_rules/mw_validation_rule_captcha.php' );
-		new mw_form_field_captcha();
+		include_once( plugin_dir_path( __FILE__ ) . 'form-fields/class.captcha.php' );
+		include_once( plugin_dir_path( __FILE__ ) . 'validation-rules/class.captcha.php' );
+		new MW_WP_Form_Field_Captcha();
 
 		if ( !class_exists( 'ATPU_Plugin' ) ) {
 			include_once( plugin_dir_path( __FILE__ ) . 'modules/plugin-update.php' );
@@ -68,7 +68,7 @@ class MW_WP_Form_Captcha {
 	 * @return array $validation_rules
 	 */
 	public function validation_captcha( $validation_rules, $key ) {
-		$validation_rules['captcha'] = new MW_Validation_Rule_Captcha( $key );
+		$validation_rules['captcha'] = new MW_WP_Form_Validation_Rule_Captcha( $key );
 		return $validation_rules;
 	}
 

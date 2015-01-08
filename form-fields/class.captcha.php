@@ -1,15 +1,20 @@
 <?php
 /**
- * Name: MW Form Field Captcha
- * Version: 1.1.0
+ * Name: MW WP Form Field Captcha
+ * Version: 1.2.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 14, 2014
- * Modified: November 26, 2014
+ * Modified: January 9, 2014
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-class MW_Form_Field_Captcha extends MW_Form_Field {
+class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
+
+	/**
+	 * $captcha_string
+	 * @var string
+	 */
 	private $captcha_string = null;
 
 	/**
@@ -20,7 +25,7 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	protected function set_names() {
 		return array(
 			'shortcode_name' => 'mwform_captcha',
-			'display_name' => __( 'CAPTCHA', MW_WP_Form_Captcha::DOMAIN ),
+			'display_name'   => __( 'CAPTCHA', MW_WP_Form_Captcha::DOMAIN ),
 		);
 	}
 
@@ -59,8 +64,9 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 			'line'    => $this->atts['line'],
 			'scratch' => $this->atts['scratch'],
 		) );
-		if ( $this->atts['show_error'] !== 'false' )
-			$_ret .= $this->getError( $this->atts['name'] );
+		if ( $this->atts['show_error'] !== 'false' ) {
+			$_ret .= $this->get_error( $this->atts['name'] );
+		}
 
 		$_ret .= $this->uniqid_field( $uniqid );
 		return $_ret;
@@ -69,13 +75,13 @@ class MW_Form_Field_Captcha extends MW_Form_Field {
 	/**
 	 * confirmPage
 	 * 確認ページでのフォーム項目を返す
-	 * @return	String	HTML
+	 * @return string HTML
 	 */
 	protected function confirmPage() {
-		$value = $this->Form->getValue( $this->atts['name'] );
-		$uniqid = $this->Form->getValue( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
-		$_ret  = $this->Form->hidden( $this->atts['name'], $value );
-		$_ret .= $this->uniqid_field( $uniqid );
+		$value  = $this->Form->get_raw( $this->atts['name'] );
+		$uniqid = $this->Form->get_raw( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
+		$_ret   = $this->Form->hidden( $this->atts['name'], $value );
+		$_ret  .= $this->uniqid_field( $uniqid );
 		return $_ret;
 	}
 
