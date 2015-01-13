@@ -30,11 +30,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	}
 
 	/**
-	 * setDefaults
+	 * set_defaults
 	 * $this->defaultsを設定し返す
 	 * @return array
 	 */
-	protected function setDefaults() {
+	protected function set_defaults() {
 		return array(
 			'name'       => MW_WP_Form_Captcha::DOMAIN,
 			'string'     => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -46,11 +46,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	}
 
 	/**
-	 * inputPage
+	 * input_page
 	 * 入力ページでのフォーム項目を返す
 	 * @return string html
 	 */
-	protected function inputPage() {
+	protected function input_page() {
 		$conv_half_alphanumeric = true;
 		if ( $this->atts['conv_half_alphanumeric'] === 'false' ) {
 			$conv_half_alphanumeric = false;
@@ -73,11 +73,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	}
 
 	/**
-	 * confirmPage
+	 * confirm_page
 	 * 確認ページでのフォーム項目を返す
 	 * @return string HTML
 	 */
-	protected function confirmPage() {
+	protected function confirm_page() {
 		$value  = $this->Form->get_raw( $this->atts['name'] );
 		$uniqid = $this->Form->get_raw( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
 		$_ret   = $this->Form->hidden( $this->atts['name'], $value );
