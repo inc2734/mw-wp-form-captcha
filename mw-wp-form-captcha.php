@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MW WP Form CAPTCHA
  * Plugin URI: http://plugins.2inc.org/mw-wp-form/
- * Description: Adding CAPTCHA field on MW WP Form.
+ * Description: Adding CAPTCHA field on MW WP Form. This plugin needs MW WP Form version 2.2.0 or later.
  * Version: 1.2.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org

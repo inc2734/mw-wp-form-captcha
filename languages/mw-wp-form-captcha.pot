@@ -1,61 +1,60 @@
-# Copyright (C) 2014 MW WP Form CAPTCHA
+# Copyright (C) 2015 MW WP Form CAPTCHA
 # This file is distributed under the same license as the MW WP Form CAPTCHA package.
 msgid ""
 msgstr ""
-"Project-Id-Version: MW WP Form CAPTCHA 1.0.2\n"
+"Project-Id-Version: MW WP Form CAPTCHA 1.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/mw-wp-form-captcha\n"
-"POT-Creation-Date: 2014-11-26 13:50:34+00:00\n"
+"POT-Creation-Date: 2015-01-13 14:22:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Takashi Kitajima <inc@2inc.org>\n"
 "Language-Team: Takashi Kitajima <inc@2inc.org>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.3\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: form_fields/mw_form_captcha.php:23
-#: validation_rules/mw_validation_rule_captcha.php:61
+#: form-fields/class.captcha.php:28 validation-rules/class.captcha.php:61
 msgid "CAPTCHA"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:99
+#: form-fields/class.captcha.php:105
 msgid "String to use"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:102
+#: form-fields/class.captcha.php:108
 msgid "Please input at least five characters."
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:105
+#: form-fields/class.captcha.php:111
 msgid "Number of lines"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:110
+#: form-fields/class.captcha.php:116
 msgid "Number of scratches"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:115
+#: form-fields/class.captcha.php:121
 msgid "Dsiplay error"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:117
+#: form-fields/class.captcha.php:123
 msgid "Don't display error."
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:120
+#: form-fields/class.captcha.php:126
 msgid "Convert half alphanumeric"
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:122
+#: form-fields/class.captcha.php:128
 msgid "Don't Convert."
 msgstr ""
 
-#: form_fields/mw_form_captcha.php:172
+#: form-fields/class.captcha.php:178
 msgid "Please input the alphanumeric characters of five characters that are displayed."
 msgstr ""
 
@@ -67,7 +66,7 @@ msgstr ""
 msgid "An unknown error occurred"
 msgstr ""
 
-#: validation_rules/mw_validation_rule_captcha.php:47
+#: validation-rules/class.captcha.php:47
 msgid "Invalid"
 msgstr ""
 #. Plugin Name of the plugin/theme
@@ -79,7 +78,7 @@ msgid "http://plugins.2inc.org/mw-wp-form/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Adding CAPTCHA field on MW WP Form."
+msgid "Adding CAPTCHA field on MW WP Form. This plugin needs MW WP Form version 2.2.0 or later."
 msgstr ""
 
 #. Author of the plugin/theme
