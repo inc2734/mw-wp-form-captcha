@@ -1,11 +1,11 @@
 <?php
 /**
  * Name: MW WP Form Field Captcha
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 14, 2014
- * Modified: April 3, 2015
+ * Modified: December 9, 2015
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -161,7 +161,8 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 		// 答えを保存
 		$answer_filepath = trailingslashit( $temp_dir ) . $filename . '.php';
 		$php_string = sprintf(
-			'<?php define( "MWFORM_CAPTCHA_STRING", "%s" ) ?>',
+			'<?php define( "MWFORM_CAPTCHA_STRING_%s", "%s" ) ?>',
+			$options['uniqid'],
 			$string
 		);
 		file_put_contents( $answer_filepath, $php_string );
@@ -191,7 +192,14 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	 * @return string hidden フィールド
 	 */
 	protected function uniqid_field( $uniqid ) {
-		return $this->Form->hidden( MW_WP_Form_Captcha::DOMAIN . '-uniqid', $uniqid );
+		return $this->Form->hidden(
+			sprintf(
+				'%s-%s-uniqid',
+				esc_attr( MW_WP_Form_Captcha::DOMAIN ),
+				esc_attr( $this->atts['name'] )
+			),
+			$uniqid
+		);
 	}
 
 	/**

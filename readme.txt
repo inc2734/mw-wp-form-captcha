@@ -3,8 +3,8 @@ Contributors: inc2734
 Donate link: http://www.amazon.co.jp/registry/wishlist/39ANKRNSTNW40
 Tags: plugin, form, mail, captcha
 Requires at least: 3.7
-Tested up to:4.1.0
-Stable tag: 1.3.0
+Tested up to:4.3.1
+Stable tag: 1.3.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ Do you have questions or issues with MW WP Form CAPTCHA? Use these support chann
 1. [Official](http://plugins.2inc.org/mw-wp-form/)
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed a problem when multiple placement.
 
 = 1.3.0 =
 * This plugin needs MW WP Form version 2.4.0 or later.
