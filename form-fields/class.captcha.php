@@ -1,11 +1,11 @@
 <?php
 /**
  * Name: MW WP Form Field Captcha
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : July 14, 2014
- * Modified: December 9, 2015
+ * Modified: December 14, 2015
  * License: GPLv2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -79,7 +79,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	 */
 	protected function confirm_page() {
 		$value  = $this->Data->get_raw( $this->atts['name'] );
-		$uniqid = $this->Data->get_raw( MW_WP_Form_Captcha::DOMAIN . '-uniqid' );
+		$uniqid = $this->Data->get_raw( sprintf(
+				'%s-%s-uniqid',
+				esc_attr( MW_WP_Form_Captcha::DOMAIN ),
+				esc_attr( $this->atts['name'] )
+		) );
 		$_ret   = $this->Form->hidden( $this->atts['name'], $value );
 		$_ret  .= $this->uniqid_field( $uniqid );
 		return $_ret;

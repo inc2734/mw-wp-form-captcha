@@ -2,11 +2,11 @@
 /**
  * Name: ATPU_Plugin
  * Description:
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Takashi Kitajima
  * Author URI: http://2inc.org
  * Created : February 18, 2014
- * Modified: July 29, 2014
+ * Modified: November 13, 2014
  * Package: MW Automatic Theme Plugin Update
  *
  * Original Author: jeremyclark13, Kaspars Dambis (kaspars@konstruktors.com)
@@ -61,6 +61,9 @@ class ATPU_Plugin {
 				'version' => $checked_data->checked[$plugin_name],
 			);
 			$request_string = array(
+				'headers' => array(
+					'Accept-Encoding' => '',
+				),
 				'body' => array(
 					'action' => 'basic_check',
 					'request' => serialize( $args ),
