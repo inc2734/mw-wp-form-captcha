@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MW WP Form CAPTCHA 1.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/mw-wp-form-captcha\n"
-"POT-Creation-Date: 2019-08-30 10:47+0900\n"
-"PO-Revision-Date: 2019-08-30 10:47+0900\n"
+"POT-Creation-Date: 2019-08-30 13:00+0900\n"
+"PO-Revision-Date: 2019-08-30 13:00+0900\n"
 "Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: Takashi Kitajima <inc@2inc.org>\n"
 "Language: ja_JP\n"
@@ -55,11 +55,21 @@ msgstr "半角英数字に変換"
 msgid "Don't Convert."
 msgstr "変換しない"
 
-#: ../form-fields/class.captcha.php:183
+#: ../form-fields/class.captcha.php:182
 msgid ""
 "Please input the alphanumeric characters of five characters that are "
 "displayed."
 msgstr "表示された5文字の英数字を入力してください。"
+
+#: ../form-fields/class.captcha.php:184
+msgid ""
+"Please input the numeric characters of five characters that are displayed."
+msgstr "表示された5文字の数字を入力してください。"
+
+#: ../form-fields/class.captcha.php:186
+msgid ""
+"Please input the alphabet characters of five characters that are displayed."
+msgstr "表示された5文字の英字を入力してください。"
 
 #: ../modules/plugin-update.php:108
 msgid ""

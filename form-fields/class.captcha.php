@@ -179,8 +179,15 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 			'scratch' => $options['scratch'],
 		) );
 
+		$message = esc_html__( 'Please input the alphanumeric characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
+		if ( preg_match( '/^\d+$/u', $options['string'] ) ) {
+			$message = esc_html__( 'Please input the numeric characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
+		} elseif ( preg_match( '/^\[a-zA-Z]+$/u', $options['string'] ) ) {
+			$message = esc_html__( 'Please input the alphabet characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
+		}
+
 		$_ret  = sprintf( '<img src="%s" alt="" /><br />', $image_url );
-		$_ret .= esc_html__( 'Please input the alphanumeric characters of five characters that are displayed.', MW_WP_Form_Captcha::DOMAIN );
+		$_ret .= $message;
 		$_ret .= '<br />';
 		$_ret .= $this->Form->text( $name, array(
 			'value' => null,
