@@ -4,9 +4,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MW WP Form CAPTCHA 1.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/mw-wp-form-captcha\n"
-"POT-Creation-Date: 2015-01-13 14:22:12+00:00\n"
-"PO-Revision-Date: 2015-01-13 23:23+0900\n"
-"Last-Translator: Takashi Kitajima <inc@2inc.org>\n"
+"POT-Creation-Date: 2019-08-30 10:47+0900\n"
+"PO-Revision-Date: 2019-08-30 10:47+0900\n"
+"Last-Translator: inc2734 <inc@2inc.org>\n"
 "Language-Team: Takashi Kitajima <inc@2inc.org>\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
@@ -15,88 +15,78 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html__\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: form-fields/class.captcha.php:28 validation-rules/class.captcha.php:61
+#: ../form-fields/class.captcha.php:28 ../validation-rules/class.captcha.php:68
 msgid "CAPTCHA"
 msgstr "CAPTCHA"
 
-#: form-fields/class.captcha.php:105
+#: ../form-fields/class.captcha.php:109
 msgid "String to use"
 msgstr "使用する文字列"
 
-#: form-fields/class.captcha.php:108
+#: ../form-fields/class.captcha.php:112
 msgid "Please input at least five characters."
 msgstr "最低でも5文字以上入力してください。"
 
-#: form-fields/class.captcha.php:111
+#: ../form-fields/class.captcha.php:115
 msgid "Number of lines"
 msgstr "線の数"
 
-#: form-fields/class.captcha.php:116
+#: ../form-fields/class.captcha.php:120
 msgid "Number of scratches"
 msgstr "スクラッチの数"
 
-#: form-fields/class.captcha.php:121
-msgid "Dsiplay error"
-msgstr "エラー表示"
+#: ../form-fields/class.captcha.php:125
+msgid "Display error"
+msgstr "エラーを表示"
 
-#: form-fields/class.captcha.php:123
+#: ../form-fields/class.captcha.php:127
 msgid "Don't display error."
 msgstr "エラーを表示しない"
 
-#: form-fields/class.captcha.php:126
+#: ../form-fields/class.captcha.php:130
 msgid "Convert half alphanumeric"
 msgstr "半角英数字に変換"
 
-#: form-fields/class.captcha.php:128
+#: ../form-fields/class.captcha.php:132
 msgid "Don't Convert."
 msgstr "変換しない"
 
-#: form-fields/class.captcha.php:178
+#: ../form-fields/class.captcha.php:183
 msgid ""
-"Please input the alphanumeric characters of five characters that are displayed."
+"Please input the alphanumeric characters of five characters that are "
+"displayed."
 msgstr "表示された5文字の英数字を入力してください。"
 
-#: modules/plugin-update.php:105
+#: ../modules/plugin-update.php:108
 msgid ""
-"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?\" "
-"onclick=\"document.location.reload(); return false;\">Try again</a>"
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
 msgstr ""
 
-#: modules/plugin-update.php:110
+#: ../modules/plugin-update.php:113
 msgid "An unknown error occurred"
 msgstr "An unknown error occurred"
 
-#: validation-rules/class.captcha.php:47
+#: ../validation-rules/class.captcha.php:54
 msgid "Invalid"
 msgstr "不正です。"
 
-#. Plugin Name of the plugin/theme
-msgid "MW WP Form CAPTCHA"
-msgstr "MW WP Form CAPTCHA"
+#~ msgid "MW WP Form CAPTCHA"
+#~ msgstr "MW WP Form CAPTCHA"
 
-#. Plugin URI of the plugin/theme
-msgid "http://plugins.2inc.org/mw-wp-form/"
-msgstr "http://plugins.2inc.org/mw-wp-form/"
+#~ msgid "http://plugins.2inc.org/mw-wp-form/"
+#~ msgstr "http://plugins.2inc.org/mw-wp-form/"
 
-#. Description of the plugin/theme
-msgid ""
-"Adding CAPTCHA field on MW WP Form. This plugin needs MW WP Form version 2.2.0 or "
-"later."
-msgstr ""
-"MW WP Form に CAPTCHA を追加するプラグインです。このプラグインは MW WP Form 2.2.0 "
-"以降が必要です。"
-
-#. Author of the plugin/theme
-msgid "Takashi Kitajima"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://2inc.org"
-msgstr ""
+#~ msgid ""
+#~ "Adding CAPTCHA field on MW WP Form. This plugin needs MW WP Form version "
+#~ "2.2.0 or later."
+#~ msgstr ""
+#~ "MW WP Form に CAPTCHA を追加するプラグインです。このプラグインは MW WP "
+#~ "Form 2.2.0 以降が必要です。"
 
 #~ msgid "Adding CAPTCHA field on MW WP Form."
 #~ msgstr "MW WP Form に CAPTCHA を追加します。"
