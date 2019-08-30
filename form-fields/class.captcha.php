@@ -254,13 +254,34 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 		}
 
 		$im = @imagecreate( 200, 50 ) or die( 'Cannot Initialize new GD image stream.' );
-		$background_color = imagecolorallocate( $im, rand( 80, 100 ), rand( 80, 100 ), rand( 80, 100 ) );
+		$background_color_rgb = apply_filters(
+			MW_WP_Form_Captcha::PREFIX . 'background-color-rgb',
+			[
+				rand( 80, 100 ),
+				rand( 80, 100 ),
+				rand( 80, 100 ),
+			]
+		);
+		$background_color = imagecolorallocate(
+			$im,
+			$background_color_rgb[0],
+			$background_color_rgb[1],
+			$background_color_rgb[2]
+		);
 
+		$text_color_rgb = apply_filters(
+			MW_WP_Form_Captcha::PREFIX . 'text-color-rgb',
+			[
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+			]
+		);
 		$count = strlen( $string );
 		for ( $i = 0; $i < $count; $i ++ ) {
 			$font_key = array_rand( $fonts );
 			$font = $fonts[$font_key];
-			$text_color = imagecolorallocate( $im, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+			$text_color = imagecolorallocate( $im, $text_color_rgb[0], $text_color_rgb[1], $text_color_rgb[2] );
 			$font_size = rand( 20, 24 );
 			$angle = rand( -25, 25 );
 			$x = ( $i + 1 ) * 25;
@@ -288,7 +309,15 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	 * @param image $image イメージリソース
 	 */
 	protected function scratch( $image ) {
-		$color = imagecolorallocate( $image, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+		$scratch_color_rgb = apply_filters(
+			MW_WP_Form_Captcha::PREFIX . 'scratch-color-rgb',
+			[
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+			]
+		);
+		$color = imagecolorallocate( $image, $scratch_color_rgb[0], $scratch_color_rgb[1], $scratch_color_rgb[2] );
 		$x1 = rand( 0, 200 );
 		$y1 = rand( 0, 50 );
 		$x2 = $x1 + rand( -10, 10 );
@@ -303,7 +332,15 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	 * @param int $thickness ラインの
 	 */
 	protected function line( $image, $thickness = 1 ) {
-		$color = imagecolorallocate( $image, rand( 0, 30 ), rand( 0, 30 ), rand( 0, 30 ) );
+		$line_color_rgb = apply_filters(
+			MW_WP_Form_Captcha::PREFIX . 'line-color-rgb',
+			[
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+				rand( 0, 30 ),
+			]
+		);
+		$color = imagecolorallocate( $image, $line_color_rgb[0], $line_color_rgb[1], $line_color_rgb[2] );
 		$x1 = rand( 0, 200 );
 		$y1 = 0;
 		if ( $x1 === 0 ) {

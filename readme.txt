@@ -52,6 +52,13 @@ Do you have questions or issues with MW WP Form CAPTCHA? Use these support chann
 
 == Changelog ==
 
+= 1.4.0 =
+* Add filter hook `mwf-captcha-background-color-rgb`
+* Add filter hook `mwf-captcha-text-color-rgb`
+* Add filter hook `mwf-captcha-scratch-color-rgb`
+* Add filter hook `mwf-captcha-line-color-rgb`
+* Change the message to be displayed according to the set characters.
+
 = 1.3.2 =
 * Some fixes.
 
