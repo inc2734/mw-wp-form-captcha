@@ -256,11 +256,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 		$im = @imagecreate( 200, 50 ) or die( 'Cannot Initialize new GD image stream.' );
 		$background_color_rgb = apply_filters(
 			MW_WP_Form_Captcha::PREFIX . 'background-color-rgb',
-			[
+			array(
 				rand( 80, 100 ),
 				rand( 80, 100 ),
 				rand( 80, 100 ),
-			]
+			)
 		);
 		$background_color = imagecolorallocate(
 			$im,
@@ -271,11 +271,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 
 		$text_color_rgb = apply_filters(
 			MW_WP_Form_Captcha::PREFIX . 'text-color-rgb',
-			[
+			array(
 				rand( 0, 30 ),
 				rand( 0, 30 ),
 				rand( 0, 30 ),
-			]
+			)
 		);
 		$count = strlen( $string );
 		for ( $i = 0; $i < $count; $i ++ ) {
@@ -311,11 +311,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	protected function scratch( $image ) {
 		$scratch_color_rgb = apply_filters(
 			MW_WP_Form_Captcha::PREFIX . 'scratch-color-rgb',
-			[
+			array(
 				rand( 0, 30 ),
 				rand( 0, 30 ),
 				rand( 0, 30 ),
-			]
+			)
 		);
 		$color = imagecolorallocate( $image, $scratch_color_rgb[0], $scratch_color_rgb[1], $scratch_color_rgb[2] );
 		$x1 = rand( 0, 200 );
@@ -334,11 +334,11 @@ class MW_WP_Form_Field_Captcha extends MW_WP_Form_Abstract_Form_Field {
 	protected function line( $image, $thickness = 1 ) {
 		$line_color_rgb = apply_filters(
 			MW_WP_Form_Captcha::PREFIX . 'line-color-rgb',
-			[
+			array(
 				rand( 0, 30 ),
 				rand( 0, 30 ),
 				rand( 0, 30 ),
-			]
+			)
 		);
 		$color = imagecolorallocate( $image, $line_color_rgb[0], $line_color_rgb[1], $line_color_rgb[2] );
 		$x1 = rand( 0, 200 );
